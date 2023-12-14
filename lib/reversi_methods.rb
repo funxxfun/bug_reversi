@@ -53,16 +53,17 @@ module ReversiMethods
       next_pos = pos.next_position(direction)
       turn_succeed = true if turn(copied_board, next_pos, stone_color, direction)
     end
-
+    
     copy_board(board, copied_board) if !dry_run && turn_succeed
-
+    
     turn_succeed
   end
-
+  
   def turn(board, target_pos, attack_stone_color, direction)
     return false if target_pos.out_of_board?
     return false if target_pos.stone_color(board) == attack_stone_color
-
+    return false if target_pos.stone_color(board) == BLANK_CELL
+    
     next_pos = target_pos.next_position(direction)
     if (next_pos.stone_color(board) == attack_stone_color) || turn(board, next_pos, attack_stone_color, direction)
       board[target_pos.row][target_pos.col] = attack_stone_color
